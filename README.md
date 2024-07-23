@@ -2,7 +2,7 @@
 Markdown
 # AWS CONFIG WITH CONFORMANCE PACK
 
-[![Architecture Diagram](config.png)](config.png)
+[![AWS Conig](images/config.png)](images/config.png)
 
 # AWS Config: Your AWS Environment's X-Ray Vision
 
@@ -55,25 +55,15 @@ While AWS Config gives you incredible visibility into your AWS environment, it d
 
 # aws config terraform overiew.drawio.png
 
-[![Architecture Diagram](terraform-highlvl.png)](terraform-highlvl.png)
+[![High Level Overview](images/terraform-highlvl.png)](images/terraform-highlvl.png)
 
-[![Architecture Diagram](score.png)](score.png)
+[![How Score is Calculated](images/score.png)](images/score.png)
 Conformance Packs fill the gaps in AWS Config by providing:
 By combining AWS Config with Conformance Packs, you gain a complete solution for monitoring, enforcing, and maintaining compliance in your AWS infrastructure.
 
 
 # AWS Config Conformance & Recorder Terraform Project
 
-[![Terraform](https://img.shields.io/badge/Terraform-7B42BC?style=for-the-badge&logo=terraform&logoColor=white)](https://www.terraform.io/)
-[![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)](https://aws.amazon.com/)
-
-This Terraform project streamlines the process of setting up AWS Config, a powerful service that helps you monitor, audit, and enforce compliance across your AWS resources. Specifically, this project focuses on S3 bucket security.
-
-## Dark Yellow Theme 🎨
-
-![Dark Yellow Theme](https://via.placeholder.com/500x200/333300/ffff00?text=Dark+Yellow+Theme) _(Image Placeholder for Dark Yellow Theme)_
-
-## Project Structure
 
 ## Key Components & How They Work Together
 
@@ -113,6 +103,58 @@ This Terraform project streamlines the process of setting up AWS Config, a power
 * Modify these variables in the `variables.tf` file to fit your environment and naming conventions.
 
 ## How to Use (Step-by-Step)
+
+
+
+
+## 🛠️ Project Structure & How It Works
+[![Architecture Diagram](images/folderstructure.png)](images/folderstructure.png)
+This project is a well-organized toolkit for setting up AWS Config to monitor and enforce compliance rules on your AWS resources. Let's take a closer look at how it all fits together:
+
+### 📂 Directory Structure
+
+### 🧰 Inside the Toolbox (Directories & Files)
+
+* **`Conformance_templates/`:**
+    - **Purpose:** Your rulebook! Stores YAML files defining compliance rules for AWS resources.
+    - **Key File:** The included `.yaml` file checks for public S3 buckets (a security risk).
+
+* **`modules/`:**
+    - **Purpose:** Reusable building blocks (modules) for different AWS Config components.
+    - **Key Modules:**
+        - **`ConformancePack/`:**  The tool that creates and enforces your rulebook.
+        - **`IAM/`:** Creates the permissions (roles and policies) for AWS Config to function.
+        - **`recorder/`:** Sets up the "security camera" (AWS Config Recorder) to track resource changes.
+        - **`storage/`:** Creates and configures S3 "storage boxes" for your Config data and rules.
+
+* **`main.tf`:**
+    - **Purpose:** The main instruction manual. It connects and configures the modules.
+    - **How it Works:** It reads your rules, builds the tools (from the modules), links the recorder to storage, and activates the conformance pack to check your resources.
+
+* **`variables.tf`:**
+    - **Purpose:** Your customization panel. Change names, settings, etc. to match your environment.
+
+* **`backend.tf`:**
+    - **Purpose:** Tells Terraform where to save its memory (state) about your infrastructure.
+
+### ⚙️ Building the AWS Config System
+
+1. **Define the Rules:** Start by writing or customizing rules in the `.yaml` files within `Conformance_templates/`. Think of these rules as your security guidelines.
+
+2. **Prepare the Tools:** Use the modules to create:
+   - The **Conformance Pack Tool** (`ConformancePack/`) that applies your rules.
+   - The **IAM Tools** (`IAM/`) to grant AWS Config the necessary permissions.
+   - The **Recorder Tool** (`recorder/`) to monitor changes to your resources.
+   - The **Storage Boxes** (`storage/`) to safely store your Config data and rules.
+
+3. **Build the System:** The `main.tf` file is like the project manager:
+   - It reads your custom rules.
+   - It assembles the tools from the modules.
+   - It connects the recorder to the storage.
+   - It sets up the conformance pack to evaluate your AWS resources against your defined rules.
+
+4. **Customize (Optional):** Make any necessary adjustments in the `variables.tf` file.
+
 
 1. **Prerequisites:**
    * An AWS account
