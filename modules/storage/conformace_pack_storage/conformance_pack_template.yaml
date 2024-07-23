@@ -1,0 +1,29 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Conformance pack to check S3 bucket public access block configuration.
+Parameters: {}
+Resources:
+  S3PublicReadAccessBlockRule:
+    Type: AWS::Config::ConfigRule
+    Properties:
+      ConfigRuleName: S3PublicReadAccessBlockRule
+      Description: Checks that your S3 buckets do not allow public read access.
+      Source:
+        Owner: AWS
+        SourceIdentifier: S3_BUCKET_PUBLIC_READ_PROHIBITED
+      Scope:
+        ComplianceResourceTypes:
+          - AWS::S3::Bucket
+      InputParameters: {}
+
+  S3PublicWriteAccessBlockRule:
+    Type: AWS::Config::ConfigRule
+    Properties:
+      ConfigRuleName: S3PublicWriteAccessBlockRule
+      Description: Checks that your S3 buckets do not allow public write access.
+      Source:
+        Owner: AWS
+        SourceIdentifier: S3_BUCKET_PUBLIC_WRITE_PROHIBITED
+      Scope:
+        ComplianceResourceTypes:
+          - AWS::S3::Bucket
+      InputParameters: {}
