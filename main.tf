@@ -62,6 +62,7 @@ resource "aws_s3_object" "conformance_pack_template" {
   key    = "conformance_pack_template.yaml"
   source = "./Conformance_templates/conformance_pack_template.yaml"
   etag   = filemd5("./Conformance_templates/conformance_pack_template.yaml")
+  # depends_on = [aws_s3_bucket.ConformancePacke1_s3_bucket]
 }
 
 
@@ -69,7 +70,8 @@ resource "aws_s3_object" "conformance_pack_template" {
 
 module "ConformancePack1" {
   source      = "./modules/ConformancePack"
-  name        = var.ConformanceName
+  name        = module.ConformancePacke1_s3_bucket.bucket_id
   bucketName  = var.ConformancePack1_bucketName
   templateKey = "conformance_pack_template.yaml"
+  depends_on = [aws_s3_object.conformance_pack_template]
 }

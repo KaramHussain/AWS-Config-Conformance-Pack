@@ -1,11 +1,9 @@
 resource "aws_config_configuration_recorder" "config_recorder" {
   name     = var.name
   role_arn = var.role_arn
-
   recording_group {
-    all_supported                 = false
-    include_global_resource_types = false
-    resource_types                = ["AWS::S3::Bucket"]
+    all_supported                 = true
+    include_global_resource_types = true
   }
 }
 
