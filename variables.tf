@@ -1,7 +1,7 @@
 variable "region" {
   type        = string
   description = "Region where to deploy"
-  default     = "us-east-1"
+  default     = "us-east-2"
 }
 
 variable "configRecorder_role_name" {
@@ -41,3 +41,15 @@ variable "ConformanceName" {
   default     = "conformancepack"
 }
 
+
+variable "conformancePacks" {
+  description = "List of conformance packs with their filenames and compliance names"
+  type = list(map(string))
+  default = [
+    # {
+    #   filename       = "dynamodb.yaml",
+    #   ComplianceName = "dynamodbComplaince"
+    # }
+    // Add more conformance packs as needed
+  ]
+}

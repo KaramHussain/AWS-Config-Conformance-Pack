@@ -55,23 +55,28 @@ module "ConformancePacke1_s3_bucket" {
 }
 
 
-## Uploading Yaml File to Above Created S3 Bucket
+## Uploading Yaml File to Above Created S3 Bucket for each Conformance Pack
 
 resource "aws_s3_object" "conformance_pack_template" {
+  for_each = { for cp in var.conformancePacks : cp.ComplianceName => cp }
+
   bucket = module.ConformancePacke1_s3_bucket.bucket_id
-  key    = "conformance_pack_template.yaml"
-  source = "./Conformance_templates/conformance_pack_template.yaml"
-  etag   = filemd5("./Conformance_templates/conformance_pack_template.yaml")
-  # depends_on = [aws_s3_bucket.ConformancePacke1_s3_bucket]
+  key    = each.value.filename
+  source = "./Conformance_templates/${each.value.filename}"
+  etag   = filemd5("./Conformance_templates/${each.value.filename}")
 }
 
+## Creating Conformance Pack for each entry
 
-## Creating Conformance Pack 1
+module "ConformancePack" {
+  for_each = { for cp in var.conformancePacks : cp.ComplianceName => cp }
 
-module "ConformancePack1" {
   source      = "./modules/ConformancePack"
-  name        = module.ConformancePacke1_s3_bucket.bucket_id
+  name        = each.value.ComplianceName
   bucketName  = var.ConformancePack1_bucketName
-  templateKey = "conformance_pack_template.yaml"
-  depends_on = [aws_s3_object.conformance_pack_template]
+  templateKey = each.value.filename
+  depends_on  = [aws_s3_object.conformance_pack_template]
 }
+
+
+
