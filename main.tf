@@ -66,6 +66,7 @@ resource "aws_s3_object" "conformance_pack_template" {
   etag   = filemd5("./Conformance_templates/${each.value.filename}")
 }
 
+
 ## Creating Conformance Pack for each entry
 
 module "ConformancePack" {
