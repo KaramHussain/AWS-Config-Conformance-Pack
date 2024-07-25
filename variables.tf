@@ -44,7 +44,7 @@ variable "ConformanceName" {
 
 variable "conformancePacks" {
   description = "List of conformance packs with their filenames and compliance names"
-  type = list(map(string))
+  type        = list(map(string))
   default = [
     {
       filename       = "dynamodb.yaml",
